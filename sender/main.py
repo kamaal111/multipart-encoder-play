@@ -1,5 +1,8 @@
 import os
+import json
 from pathlib import Path
+
+import urllib3
 
 from lib.multipart_encoder import CustomMultipartEncoder, MultipartFile
 
@@ -24,7 +27,15 @@ def main() -> str:
         data={"data": "123"},
         separator="\\r\\n",
     )
-    return data.to_string()
+    encoded_data = data.to_string()
+    response = urllib3.request(
+        method="POST",
+        url="http://localhost:3000/file",
+        headers={"Content-Type": "application/json"},
+        body=json.dumps({"yes": "no"}),
+    )
+    print("resp", response.data)
+    return "success"
 
 
 if __name__ == "__main__":

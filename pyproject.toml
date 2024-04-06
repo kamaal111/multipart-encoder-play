@@ -3,7 +3,7 @@ name = "multipartencoderplay"
 version = "0.1.0"
 description = "Add your description here"
 authors = [{ name = "Kamaal Farah", email = "kamaal.f1@gmail.com" }]
-dependencies = ["requests-toolbelt>=1.0.0"]
+dependencies = ["requests-toolbelt>=1.0.0", "urllib3>=2.2.1"]
 readme = "README.md"
 requires-python = ">= 3.8"
 

@@ -3,9 +3,11 @@ import express from "express";
 const app = express();
 const port = 3000;
 
-app.get("/", (req, res) => {
+app.use(express.json());
+
+app.post("/file", (req, res) => {
   console.log("req.body", req.body);
-  res.send("Hello World!");
+  res.json({ details: "OK" });
 });
 
 app.listen(port, () => {
