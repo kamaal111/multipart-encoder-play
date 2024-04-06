@@ -9,7 +9,7 @@ send:
     . $HOME/.rye/env
     . .venv/bin/activate
 
-    python sender/multipartencoderplay/main.py
+    python sender/main.py
 
 # Bootstrap repo for development
 bootstrap:
