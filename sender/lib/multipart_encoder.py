@@ -33,6 +33,10 @@ class CustomMultipartEncoder:
         self.data = data
         self.separator = separator
 
+    @property
+    def boundary(self):
+        return self.encoded.boundary
+
     def to_string(self):
         return self.__make_encoded_string()
 
@@ -41,18 +45,20 @@ class CustomMultipartEncoder:
         for file in self.files:
             string_file_content = self.__extract_string_from_file(file)
             encoded_string += (
-                (f"{self.boundary}{self.separator}Content-Disposition: form-data; ")
+                (self.__make_header())
                 + f'name="{file.key}"; filename="{file.name}"{self.separator}'
                 + f"Content-Type: {file.content_type}{self.separator * 2}"
                 + f"{string_file_content}{self.separator * 2}"
             )
         for key, value in self.data.items():
             encoded_string += (
-                f"{self.boundary}{self.separator}Content-Disposition: form-data; "
-                + f'name="{key}"{self.separator * 2}{value}'
+                f'{self.__make_header()}name="{key}"{self.separator * 2}{value}'
             )
         encoded_string += f"{self.boundary}--{self.separator}"
         return encoded_string.encode()
+
+    def __make_header(self):
+        return f"{self.boundary}{self.separator}Content-Disposition: form-data; "
 
     def __extract_string_from_file(self, file: MultipartFile):
         match file.content_type:
@@ -68,7 +74,3 @@ class CustomMultipartEncoder:
 
     def __extract_string_from_pdf(self, file: MultipartFile):
         return file.file_content
-
-    @property
-    def boundary(self):
-        return self.encoded.boundary
